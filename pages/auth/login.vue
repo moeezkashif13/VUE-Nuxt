@@ -1,16 +1,15 @@
 <script setup>
-import ValidationProvider from "vee-validate";
-
+import LoginForm from "@/forms/validations/login.vue";
+const auth = useAuthentication();
 definePageMeta({
   layout: "auth",
 });
-
-const inputFieldClasses = inject("inputFieldClasses");
 </script>
 
 <template>
   <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-    <div class="mt-12 flex flex-col items-center">
+    <Spinner v-if="auth.loading" />
+    <div v-else class="mt-12 flex flex-col items-center">
       <h1 class="text-2xl xl:text-3xl font-extrabold">Login</h1>
       <div href="/" class="underline text-2xl xl:text-3xl font-extrabold mt-3">
         Go to Homepage
@@ -61,48 +60,7 @@ const inputFieldClasses = inject("inputFieldClasses");
             Or login with e-mail
           </div>
         </div>
-        <div class="mx-auto max-w-xs">
-          <input :class="inputFieldClasses" type="email" placeholder="Email" />
-          <p class="mb-2 text-sm text-red-500 font-semibold">
-            {errors.email?.message}
-          </p>
-
-          <input
-            :class="inputFieldClasses"
-            type="password"
-            placeholder="Password"
-          />
-
-          <p class="text-sm text-red-500 font-semibold mb-2">
-            {errors.password?.message}
-          </p>
-
-          <button
-            type="submit"
-            class="tracking-wide font-semibold bg-indigo-500 disabled:bg-indigo-300 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-          >
-            <svg
-              class="w-6 h-6 -ml-2"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="{2}"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-              <circle cx="8.5" cy="7" r="4" />
-              <path d="M20 8v6M23 11h-6" />
-            </svg>
-            <span class="ml-3">Login</span>
-          </button>
-
-          <p class="mt-6 text-xs text-gray-600 text-center">
-            New to Shop Envy?
-            <NuxtLink href="register" class="underline">
-              Go to Register Page
-            </NuxtLink>
-          </p>
-        </div>
+        <LoginForm />
       </div>
     </div>
   </div>
