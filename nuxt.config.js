@@ -1,8 +1,12 @@
+import vueJsx from "@vitejs/plugin-vue-jsx";
+
 export default defineNuxtConfig({
   routeRules: {
     "/dashboard": { ssr: false },
+    "/auth/*": { ssr: false },
   },
   devtools: { enabled: true },
+
   css: ["~/assets/css/main.css"],
   modules: [
     "@pinia/nuxt",

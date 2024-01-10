@@ -1,6 +1,9 @@
 <script setup>
 import RegisterForm from "@/forms/validations/register.vue";
+import { useAuthentication } from "~/store/authSlice";
 const auth = useAuthentication();
+const { redirectToGoogle, redirectToTwitter } = useOAuth();
+
 definePageMeta({
   layout: "auth",
 });
@@ -16,17 +19,21 @@ definePageMeta({
     ></div>
   </div>
   <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-    <Spinner v-if="auth.loading" />
+    <CustomLoader v-if="auth.loading" />
     <div v-else class="mt-12 flex flex-col items-center">
       <h1 class="text-2xl xl:text-3xl font-extrabold">Register</h1>
-      <div href="/" class="underline text-2xl xl:text-3xl font-extrabold mt-3">
+      <NuxtLink
+        href="/"
+        class="underline text-2xl xl:text-3xl font-extrabold mt-3"
+      >
         Go to Homepage
-      </div>
+      </NuxtLink>
 
       <div class="w-full flex-1 mt-8">
         <div class="flex flex-col items-center">
           <button
             class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
+            @click="redirectToGoogle"
           >
             <div class="bg-white p-2 rounded-full">
               <svg class="w-4" viewBox="0 0 533.5 544.3">
@@ -52,6 +59,7 @@ definePageMeta({
           </button>
           <button
             class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mt-5"
+            @click="redirectToTwitter"
           >
             <div
               class="bg-white w-8 h-8 p-1 rounded-full flex justify-center items-center"

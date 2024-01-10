@@ -1,12 +1,12 @@
 <script setup>
 import * as yup from "yup";
 import { useForm } from "vee-validate";
-import { useAuthentication } from "@/stores/auth";
+import { useAuthentication } from "@/store/authSlice";
 const inputFieldClasses = inject("inputFieldClasses");
 const auth = useAuthentication();
 
 const schema = yup.object({
-  email: yup.string().required().email(),
+  email: yup.string().required("Email is required").email("Email is required"),
   password: yup
     .string()
     .required("No password provided.")
@@ -16,7 +16,6 @@ const schema = yup.object({
 const { values, meta, errors, defineField, handleSubmit } = useForm({
   validationSchema: schema,
 });
-
 const [email, emailAttributes] = defineField("email");
 const [password, passwordAttributes] = defineField("password");
 

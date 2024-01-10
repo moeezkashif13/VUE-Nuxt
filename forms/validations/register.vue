@@ -1,7 +1,7 @@
 <script setup>
 import * as yup from "yup";
 import { useForm } from "vee-validate";
-import { useAuthentication } from "@/stores/auth";
+import { useAuthentication } from "@/store/authSlice";
 const inputFieldClasses = inject("inputFieldClasses");
 const auth = useAuthentication();
 
@@ -23,9 +23,16 @@ const [name, nameAttributes] = defineField("name");
 const [username, usernameAttributes] = defineField("username");
 const [email, emailAttributes] = defineField("email");
 const [password, passwordAttributes] = defineField("password");
-
+const { uploadFile, imageURL } = useUploadImage();
+watch(
+  imageURL,
+  () => {
+    console.log(imageURL.value);
+  },
+  { immediate: true }
+);
 async function onSuccess(values) {
-  await auth.registeringUser(values);
+  await auth.registeringUser({ ...values, imageURL: imageURL.value });
 }
 async function onInvalidSubmit({ values, errors, results }) {
   console.log(values); // current form values
@@ -82,6 +89,8 @@ const onSubmit = handleSubmit(onSuccess, onInvalidSubmit);
       {{ errors.password }}
     </p>
 
+    <button @click="uploadFile">Upload File</button>
+
     <button
       :disabled="!meta.valid"
       type="submit"
@@ -108,3 +117,4 @@ const onSubmit = handleSubmit(onSuccess, onInvalidSubmit);
     </p>
   </form>
 </template>
+~/store/authSlice

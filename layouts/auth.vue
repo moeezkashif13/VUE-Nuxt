@@ -1,7 +1,28 @@
 <script setup>
+import { useAuthentication } from "~/store/authSlice";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
+const $toast = useToast();
+
+const auth = useAuthentication();
+
+if (auth.user) {
+  navigateTo("/dashboard");
+}
+
 provide(
   "inputFieldClasses",
   "w-full px-5 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mb-2"
+);
+
+watch(
+  () => auth.randomNumb,
+  (newValue, oldValue) => {
+    $toast.error("Error occured", {
+      position: "top-right",
+    });
+  }
 );
 </script>
 

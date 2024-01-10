@@ -1,6 +1,13 @@
 <script setup>
-import { BellIcon, PlusIcon } from "@heroicons/vue/24/solid";
+import {
+  BellIcon,
+  ArrowLeftStartOnRectangleIcon,
+} from "@heroicons/vue/24/solid";
 import { ArrowTrendingUpIcon } from "@heroicons/vue/24/solid";
+import { useAuthentication } from "~/store/authSlice";
+
+const { user, logoutUser } = useAuthentication();
+console.log(user);
 </script>
 
 <template>
@@ -14,17 +21,24 @@ import { ArrowTrendingUpIcon } from "@heroicons/vue/24/solid";
         <BellIcon class="w-5 h-5" />
       </div>
       <div class="flex flex-col items-center gap-2">
-        <div class="w-10 h-10 rounded-full bg-[#FAD2A4]"></div>
+        <div class="w-10 h-10 rounded-full bg-[#FAD2A4]">
+          <img
+            :src="user.user.photoURL"
+            class="w-full h-full max-w-full rounded-full"
+            alt=""
+          />
+        </div>
         <div class="text-sm text-center font-medium text-white">
-          <p>Tommy Shelby</p>
-          <p class="text-[#5D5D62]">CEO Shelby</p>
+          <p>{{ user.user.email }}</p>
+          <p class="text-[#5D5D62]">{{ user.user.uid }}</p>
         </div>
       </div>
 
       <div
-        class="w-10 h-10 rounded-xl text-purple-new flex justify-center items-center bg-[#F7FBFF]"
+        @click="logoutUser"
+        class="w-10 h-10 rounded-xl text-purple-new flex justify-center items-center bg-[#F7FBFF] cursor-pointer"
       >
-        <PlusIcon class="w-5 h-5" />
+        <ArrowLeftStartOnRectangleIcon class="w-5 h-5" />
       </div>
     </div>
 
